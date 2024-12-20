@@ -164,12 +164,12 @@ def draw_speed():
                     cv.FONT_HERSHEY_SIMPLEX, 1, color, 2, cv.LINE_AA)
         return frame
 
-    renderer = Renderer(origin_video_path) 
+    renderer = Renderer(origin_video_path, "./speed_y.mp4") 
     renderer.register_painter(speed_painter)
     renderer.register_painter(drone_speed_painter)
     # renderer.start("./speed_correct.mp4")
     # renderer.start("./speed_pixel.mp4")
-    renderer.start("./speed_y.mp4")
+    renderer.start()
 
 if __name__ == "__main__":
     # draw_earth_perspective()

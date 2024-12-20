@@ -6,10 +6,18 @@ from tqdm import tqdm
 
 
 class Renderer:
-    def __init__(self, videopath):
+    def __init__(self, input_path, output_path, buf_size_limit_MB=4096):
+        """
+        Constructor for the Renderer class.
 
-        self.videopath = videopath
-        self.cap = cv.VideoCapture(videopath)
+        Args:
+        - input_path (str): The path to the input video.
+        - output_path (str): The path to the output video.
+        - buf_size_limit_MB (int): The maximum buffer size in MB.
+        """
+        self.input_path = input_path
+        self.output_path = output_path
+        self.cap = cv.VideoCapture(input_path)
 
         self.total_frames = int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
         self.frame_id = 0
@@ -20,7 +28,7 @@ class Renderer:
         self.mux = threading.Lock()
         self.writer_buf = [None for _ in range(self.total_frames+1)]
         self.buf_size = 0
-        self.buf_size_limit_MB = 4096
+        self.buf_size_limit_MB = buf_size_limit_MB
 
     
     def __renderer(self, worker_id):
@@ -92,13 +100,13 @@ class Renderer:
         self.painter_funcs.append(func)
 
 
-    def start(self, output_path, workers=3):
+    def start(self, workers=3):
         """
-        Render the video 
+        Render the video with multiple threads.
         """
-        print(f"Rendering video to {output_path} with {workers} threads...")
+        print(f"Rendering video to {self.output_path} with {workers} threads...")
         start_time = time.time()
-        writer = threading.Thread(target=self.__writer, args=(output_path,))
+        writer = threading.Thread(target=self.__writer, args=(self.output_path,))
         writer.start()
 
         for i in range(workers):

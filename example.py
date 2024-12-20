@@ -5,7 +5,7 @@ from utils.renderer import Renderer
 
 if __name__ == "__main__":
     # 1. Create a renderer object with the video path
-    renderer = Renderer("example.mp4")
+    renderer = Renderer("example.mp4", "output.mp4")
 
     # 2. Define the painting functions
     def example_painter_1(frame, frame_id):
@@ -24,4 +24,4 @@ if __name__ == "__main__":
     renderer.register_painter(example_painter_2)
 
     # 4. Start the rendering process
-    renderer.start("output.mp4", workers=3)
+    renderer.start()
