@@ -92,7 +92,7 @@ class Renderer:
         self.painter_funcs.append(func)
 
 
-    def start(self, output_path, workers=5):
+    def start(self, output_path, workers=3):
         """
         Render the video 
         """
